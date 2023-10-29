@@ -15,7 +15,7 @@ export function LoginPage() {
     
         console.log(SERVER_URL)
         const response = await fetch(
-              SERVER_URL + '/client-login',
+              SERVER_URL + '/access',
               {
                   method: 'GET',
                   headers: {accept: 'application/json'}

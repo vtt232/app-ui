@@ -9,7 +9,7 @@ function NoteList() {
 
         console.log(SERVER_URL)
         const response = await fetch(
-            SERVER_URL + '/note',
+            SERVER_URL + '/jwt/note',
             {
                 method: 'GET', redirect: "follow", credentials: 'include',
                 headers: {accept: 'application/json'}
