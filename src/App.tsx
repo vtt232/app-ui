@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import { HomePage } from './Page/HomePage';
 import { LoginPage } from './Page/LoginPage';
 import { WelcomePage } from './Page/WelcomePage';
-import {NotePage} from './Page/NotePage'
+import {RepoListPage} from './Page/RepoListPage'
 
 
 
@@ -19,8 +19,8 @@ function App() {
         <Route path="/" element={<WelcomePage/>}/>
           <Route path="/login" element={<LoginPage/>}/>
           <Route path="/home" element={<HomePage />} />
-          <Route path="/note" element={<NotePage/>}/>
-          </Routes>
+          <Route path="/repo-list" element={<RepoListPage/>}/>
+        </Routes>
       </BrowserRouter>
 
   )

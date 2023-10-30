@@ -11,11 +11,10 @@ export function LoginPage() {
       };
     
       const getLoginPage = async () => {
-          
-    
+
         console.log(SERVER_URL)
         const response = await fetch(
-              SERVER_URL + '/access',
+              SERVER_URL + '/access/redirect',
               {
                   method: 'GET',
                   headers: {accept: 'application/json'}
