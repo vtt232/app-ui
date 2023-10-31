@@ -2,7 +2,8 @@ import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import { SERVER_URL } from '../Constant/Constant';
 import Cookies from 'js-cookie';
 import { User } from '../Type/UserType';
-import { Repo } from '../Type/RepoType';
+import { Repo } from '../Type/RepoListPropsType';
+import { Note } from '../Type/NoteListPropsType';
 
 export class ApiService {
   private api: AxiosInstance;
@@ -10,7 +11,7 @@ export class ApiService {
 
   constructor() {
     this.api = axios.create({
-        baseURL: SERVER_URL+'/jwt',
+        baseURL: SERVER_URL,
         withCredentials: true,
         headers: {
             "Content-Type": "application/json",
@@ -18,9 +19,29 @@ export class ApiService {
     });
   }
 
+  async checkLoginStatus(): Promise<boolean>{
+    try {
+      const response: AxiosResponse = await this.api.get('/access/status');
+      return response.data;
+      
+    } catch (error) {
+      throw error
+    }
+  }
+
+  async getRedirectLink(): Promise<string>{
+    try {
+      const response: AxiosResponse = await this.api.get('/access/redirect');
+      return response.data;
+      
+    } catch (error) {
+      throw error
+    }
+  }
+
   async getUserInformation(): Promise<User> {
     try {
-      const response: AxiosResponse = await this.api.get('/user/infor');
+      const response: AxiosResponse = await this.api.get('/jwt/user/infor');
       return response.data;
     } catch (error) {
       throw error;
@@ -29,7 +50,7 @@ export class ApiService {
 
   async pullRepositoriesFromGithub(): Promise<Repo[]>{
     try {
-        const response: AxiosResponse = await this.api.get('/repo/pull');
+        const response: AxiosResponse = await this.api.get('/jwt/repo/pull');
         return response.data;
       } catch (error) {
         throw error;
@@ -38,12 +59,56 @@ export class ApiService {
 
   async getRepositoriesFromDB(page: number): Promise<Repo[]>{
     try {
-        const response: AxiosResponse = await this.api.get('/repo?page='+page.toString());
+        const response: AxiosResponse = await this.api.get('/jwt/repo', { params: { page: page } });
         return response.data;
       } catch (error) {
         throw error;
       }
+  }
 
+   async getNotesFromDB(repoId: number): Promise<Note[]>{
+    try {
+        const response: AxiosResponse = await this.api.get('/jwt/note', { params: { repoId: repoId} });
+        return response.data;
+        
+    } catch (error) {
+        throw error;
+    }
+  }
+
+  async addNote(repoId: number, newContent: string): Promise<Note[]>{
+    try {
+      const response: AxiosResponse = await this.api.post(`/jwt/note/${repoId}`, {
+        content: newContent,
+      });
+      return response.data
+      
+    } catch (error) {
+      throw error
+      
+    }
+  }
+
+  async updateNote(repoId: number, noteId: number, updateContent: string): Promise<Note[]>{
+    try {
+      const response: AxiosResponse = await this.api.put(`/jwt/note/${repoId}/${noteId}`, {
+        content: updateContent,
+      });
+      return response.data
+      
+    } catch (error) {
+      throw error
+      
+    }
+  }
+  async deleteNote(repoId: number, noteId: number): Promise<Note[]>{
+    try {
+        const response: AxiosResponse = await this.api.delete(`/jwt/note/${repoId}/${noteId}`);
+        return response.data;
+        
+    } catch (error) {
+        throw error;
+    }
   }
 }
 

@@ -1,19 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { SERVER_URL } from "../Constant/Constant";
-import { Repo } from "../Type/RepoType";
-import apiService from '../ApiCaller/ApiCaller'; // Import the ApiService class
-import { RepoListPropsType } from "../Type/RepoListPropsType";
+import apiService from '../ApiCaller/ApiCaller'; 
+import {Repo, RepoListPropsType } from "../Type/RepoListPropsType";
+import { useNavigate } from "react-router-dom";
 
 function RepoList(props: RepoListPropsType) {
 
-    const [repos, setRepos] = useState<Repo[]>([{name:"",url:"",language:""}]);
+    const [repos, setRepos] = useState<Repo[]>([{id:0,name:"",url:"",language:""}]);
     const [page, setPage] = useState(0);
+    const navigate = useNavigate()
 
     const getRepos = async () => {
 
         apiService.getRepositoriesFromDB(page)
             .then((response) => {setRepos(response);})
             .catch((error)=>{console.error("Error:", error)})
+    }
+
+    const redirectToNoteListOfRepo = (repoId:number, event: React.MouseEvent<HTMLTableRowElement>)=>{
+        navigate("../repo/"+repoId)
     }
 
 
@@ -34,9 +38,9 @@ function RepoList(props: RepoListPropsType) {
             </tr>
           </thead>
           <tbody>
-            {repos.map((item, i) => (
-              <tr key={i}>
-                <td>{i+1}</td>
+            {repos.map((item) => (
+              <tr key={item.id} onClick={(event) => redirectToNoteListOfRepo(item.id, event)}>
+                <td>{item.id}</td>
                 <td>{item.name}</td>
                 <td>{item.url}</td>
                 <td>{item.language}</td>

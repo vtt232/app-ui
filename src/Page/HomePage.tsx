@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Header } from "../Component/Layout/Header";
 import { Footer } from "../Component/Layout/Footer";
 import { User } from "../Type/UserType";
-import apiService from '../ApiCaller/ApiCaller'; // Import the ApiService class
+import apiService from '../ApiCaller/ApiCaller'; 
 
 
 export function HomePage() {

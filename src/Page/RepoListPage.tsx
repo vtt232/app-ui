@@ -1,6 +1,8 @@
 import RepoList from "../Component/RepoList";
-import apiService from '../ApiCaller/ApiCaller'; // Import the ApiService class
+import apiService from '../ApiCaller/ApiCaller';
 import { useState } from "react";
+import {Footer } from "../Component/Layout/Footer";
+import { Header } from "../Component/Layout/Header";
 
 export function RepoListPage() {
 
@@ -17,13 +19,18 @@ export function RepoListPage() {
 
     
     return (
-        <div className="column">
+        <div>
+            <Header/>
+            <div className="column">
             <div>
                 <button onClick={pullRepositoriesFromGithub}>Pull your repositories from Github</button>
                 <div>{pullStatus}</div>
             </div>
             <RepoList pullStatus={pullStatus}/>
+            </div>
+            <Footer/>
         </div>
+        
     )
 
 }
