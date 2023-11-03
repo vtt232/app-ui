@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react";
 import { AddNoteForm } from "../Component/AddNoteForm";
 import { Note } from "../Type/NoteListPropsType";
 import apiService from '../ApiCaller/ApiCaller'; 
+import { Header } from "../Component/Layout/Header";
+import { Footer } from "../Component/Layout/Footer";
 export function NoteListPage () {
 
     let {id}=useParams()
@@ -31,8 +33,10 @@ export function NoteListPage () {
     if(typeof id === "string"){
         return(
         <div>
+            <Header/>
             <AddNoteForm notes={notes} setNotes={setNotes} updateNoteStatus={updateNoteStatus} repoId={parseInt(id)} setUpdateNoteStatus={setUpdateNoteStatus}/>
             <NoteList notes={notes} setNotes={setNotes} updateNoteStatus={updateNoteStatus} repoId={parseInt(id)} setUpdateNoteStatus={setUpdateNoteStatus}/>
+            <Footer/>
         </div>)
 
     }else{

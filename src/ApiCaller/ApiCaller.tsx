@@ -110,6 +110,27 @@ export class ApiService {
         throw error;
     }
   }
+
+  async setAdminRole(usernameOfAdmin: string): Promise<boolean>{
+    try {
+        const response: AxiosResponse = await this.api.post("/jwt/admin/create-admin",{
+          usernameOfAdmin: usernameOfAdmin,
+        });
+        return response.data;
+      
+    } catch (error) {
+        throw error;
+    }
+  }
+
+  async logout(): Promise<void>{
+    try {
+      await this.api.get('/logout');
+      
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 export default new ApiService();
