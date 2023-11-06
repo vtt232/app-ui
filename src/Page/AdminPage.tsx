@@ -11,8 +11,7 @@ import { SERVER_URL } from '../Constant/Constant';
 import { useNavigate} from "react-router-dom";
 import apiService from '../ApiCaller/ApiCaller'; 
 import {ModalProps } from "../Type/ModalPropsType";
-import { useDispatch, useSelector } from "react-redux";
-import { requestUserInfor } from "../sagas/actions";
+import { useSelector } from "react-redux";
 import {stateRedux } from "../Type/ReduxTypes";
 import { WebSocketMessageType } from "../Type/WebSocketMessageType";
 
@@ -20,12 +19,6 @@ import { WebSocketMessageType } from "../Type/WebSocketMessageType";
 export function AdminPage (){
 
     //REDUX SAGA
-
-    const dispatch = useDispatch()
-
-    useEffect(()=>{
-        dispatch(requestUserInfor())
-    },[dispatch])
 
     const user = useSelector((state: stateRedux) =>state.userReducer.user)
 
