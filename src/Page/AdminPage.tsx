@@ -10,29 +10,30 @@ import {over} from 'stompjs'
 import { SERVER_URL } from '../Constant/Constant';
 import { useNavigate} from "react-router-dom";
 import apiService from '../ApiCaller/ApiCaller'; 
-import { ModalProps } from "../Type/ModalPropsType";
-import { UserControllProps } from "../Type/UserType";
+import {ModalProps } from "../Type/ModalPropsType";
+import { useDispatch, useSelector } from "react-redux";
+import { requestUserInfor } from "../sagas/actions";
+import {stateRedux } from "../Type/ReduxTypes";
+import { WebSocketMessageType } from "../Type/WebSocketMessageType";
 
 
-export function AdminPage (props: UserControllProps){
+export function AdminPage (){
+
+    //REDUX SAGA
+
+    const dispatch = useDispatch()
+
+    useEffect(()=>{
+        dispatch(requestUserInfor())
+    },[dispatch])
+
+    const user = useSelector((state: stateRedux) =>state.userReducer.user)
+
+    //WEB SOCKET 
+    const navigate = useNavigate()
 
     const Sock = new SockJS(SERVER_URL+'/ws');
     const stompClient = over(Sock);
-
-    const modalDomElement = document.getElementById("portal-root");
-
-    const [stateModal, setStateModal] = useState<boolean>(false);
-    const [message, setMessage] = useState<string>("You have no permission!!!")
-
-    const [adminNameField, setAdminNameField] = useState<string>('');
-
-    const openModal = () => setStateModal(true);
-    const closeModal = () => setStateModal(false);
-
-    const navigate = useNavigate()
-
-    const modalProps: ModalProps ={message: message, setMessage: setMessage, open: openModal, close: closeModal}
-
 
     const connect =()=>{
         stompClient.connect({}, onConnected, onError);
@@ -48,8 +49,7 @@ export function AdminPage (props: UserControllProps){
 
 
     const onMessageReceived = (payload: Message)=>{
-        const [serverEvent, receiver] = payload.body;
-        console.log(payload.body["receiver"])
+
         function logoutAndRedirect() {
             apiService.logout()
                 .then(() => {
@@ -57,14 +57,18 @@ export function AdminPage (props: UserControllProps){
                 })
                 .catch((error)=>{console.error("Error:", error)})
         }
-        if(payload.body){
-            setMessage("Will be logout in 5 seconds")
-            openModal()
-        const delayInMilliseconds = 5000;
 
-        setTimeout(logoutAndRedirect, delayInMilliseconds);
+        if (payload.body) {
+            const messageData: WebSocketMessageType = JSON.parse(payload.body);
+            if (messageData.receiver === user.login) {
+                setMessage("Will be logout in 5 seconds")
+                openModal()
+                const delayInMilliseconds = 5000;
+
+                setTimeout(logoutAndRedirect, delayInMilliseconds);
+            } 
         }
-        
+       
     }
 
     const onError: (error: string | Frame) => any = (err: string | Frame) => {
@@ -75,8 +79,24 @@ export function AdminPage (props: UserControllProps){
         stompClient.send("/app/announce",{},adminNameField)
     }
 
+    useEffect(()=>{
+        connect()
+    },[])
 
-    useEffect(()=>{connect()},[])
+
+    //MODAL
+
+    const modalDomElement = document.getElementById("portal-root");
+
+    const [stateModal, setStateModal] = useState<boolean>(false);
+    const [message, setMessage] = useState<string>("You have no permission!!!")
+
+    const [adminNameField, setAdminNameField] = useState<string>('');
+
+    const openModal = () => setStateModal(true);
+    const closeModal = () => setStateModal(false);
+
+    const modalProps: ModalProps ={message: message, setMessage: setMessage, open: openModal, close: closeModal}
 
 
     return(

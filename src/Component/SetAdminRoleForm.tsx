@@ -22,7 +22,7 @@ export function SetAdminRoleForm (props: AdminPageProps) {
                 props.sendMessageToNewAdmin();
 
             }else{
-                props.modalProps.setMessage("SET ADMIN ROLE FAILED")
+                props.modalProps.setMessage("You have no permission!!!")
             }
         })
         .catch((error)=>{console.error("Error:", error)})
