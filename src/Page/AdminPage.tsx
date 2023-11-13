@@ -7,7 +7,7 @@ import { SetAdminRoleForm } from "../Component/SetAdminRoleForm";
 import SockJS from 'sockjs-client'
 import { Client, Frame, Message } from 'stompjs';
 import {over} from 'stompjs'
-import { SERVER_URL } from '../Constant/Constant';
+import { SERVER_WEBSOCKET_URL } from '../Constant/Constant';
 import { useNavigate} from "react-router-dom";
 import apiService from '../ApiCaller/ApiCaller'; 
 import {ModalProps } from "../Type/ModalPropsType";
@@ -25,7 +25,7 @@ export function AdminPage (){
     //WEB SOCKET 
     const navigate = useNavigate()
 
-    const Sock = new SockJS(SERVER_URL+'/ws');
+    const Sock = new SockJS(SERVER_WEBSOCKET_URL+'/ws');
     const stompClient = over(Sock);
 
     const connect =()=>{

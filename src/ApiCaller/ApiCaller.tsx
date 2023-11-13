@@ -125,7 +125,14 @@ export class ApiService {
 
   async logout(): Promise<void>{
     try {
-      await this.api.get('/logout');
+      const logoutAPI = axios.create({
+        baseURL: 'http://localhost/',
+        withCredentials: true,
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+      await logoutAPI.get('/logout');
       
     } catch (error) {
       throw error;
