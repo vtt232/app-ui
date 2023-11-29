@@ -1,19 +1,22 @@
-import { ModalProps } from "../../Type/ModalPropsType";
+import { NotificationModalProps } from "../../Type/ModalPropsType";
+import { Dialog, DialogContent, Button, Typography, Box } from '@mui/material';
 
-function Modal(props: ModalProps) {
-  let { message, close, ...rest} = props;
+function Modal(props: NotificationModalProps) {
+  let { message, close, isOpen, ...rest} = props;
 
   return (
-    <div id="modal-dialog">
-      <div className="flex flex-col justify-center items-center">
-        <div className="modal-content">
-          {message? message : ""}
-        </div>
-        <button onClick={close}>
-          Close
-        </button>
-      </div>
-    </div>
+    <Dialog open={isOpen} onClose={close}>
+      <DialogContent>
+        <Box display="flex" flexDirection="column" alignItems="center">
+          <Typography variant="body1" gutterBottom>
+            {message.value || ''}
+          </Typography>
+          <Button onClick={close} variant="contained" color="primary">
+            Close
+          </Button>
+        </Box>
+      </DialogContent>
+    </Dialog>
   );
 }
 export default Modal;

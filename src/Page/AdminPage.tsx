@@ -10,13 +10,30 @@ import {over} from 'stompjs'
 import { SERVER_WEBSOCKET_URL } from '../Constant/Constant';
 import { useNavigate} from "react-router-dom";
 import apiService from '../ApiCaller/ApiCaller'; 
-import {ModalProps } from "../Type/ModalPropsType";
+import {NotificationModalProps } from "../Type/ModalPropsType";
 import { useSelector } from "react-redux";
 import {stateRedux } from "../Type/ReduxTypes";
 import { WebSocketMessageType } from "../Type/WebSocketMessageType";
+import { AdminPageProps } from "../Type/AdminPagePropsType";
 
 
 export function AdminPage (){
+
+    //MODAL
+
+    const modalDomElement = document.getElementById("portal-root");
+
+    const [stateModal, setStateModal] = useState<boolean>(false);
+    const [modalMessage, setModalMessage] = useState<string>("Please wait ...")
+
+
+
+    const openModal = () => setStateModal(true);
+    const closeModal = () => setStateModal(false);
+
+    const modalProps: NotificationModalProps ={message: {value: modalMessage, setValue: setModalMessage}, open: openModal, close: closeModal, isOpen: stateModal}
+
+    
 
     //REDUX SAGA
 
@@ -54,9 +71,9 @@ export function AdminPage (){
         if (payload.body) {
             const messageData: WebSocketMessageType = JSON.parse(payload.body);
             if (messageData.receiver === user.login) {
-                setMessage("Will be logout in 5 seconds")
+                setModalMessage("Will be logout in 5 seconds")
                 openModal()
-                const delayInMilliseconds = 5000;
+                const delayInMilliseconds = 1000 * 5;
 
                 setTimeout(logoutAndRedirect, delayInMilliseconds);
             } 
@@ -68,40 +85,26 @@ export function AdminPage (){
         console.error(err);
     }
 
-    const sendMessageToNewAdmin = () => {
-        stompClient.send("/app/announce",{},adminNameField)
+    const sendMessageToNewAdmin = (adminName: string) => {
+        stompClient.send("/app/announce",{},adminName)
     }
 
     useEffect(()=>{
         connect()
     },[])
 
-
-    //MODAL
-
-    const modalDomElement = document.getElementById("portal-root");
-
-    const [stateModal, setStateModal] = useState<boolean>(false);
-    const [message, setMessage] = useState<string>("You have no permission!!!")
-
-    const [adminNameField, setAdminNameField] = useState<string>('');
-
-    const openModal = () => setStateModal(true);
-    const closeModal = () => setStateModal(false);
-
-    const modalProps: ModalProps ={message: message, setMessage: setMessage, open: openModal, close: closeModal}
-
+    const adminPageProps: AdminPageProps = {modalProps, sendMessageToNewAdmin: sendMessageToNewAdmin }
 
     return(
     <div>
         <Header/>
         {stateModal && modalDomElement &&
                     createPortal(
-                        <Modal message={message} close={closeModal} open={openModal} setMessage={setMessage}/>,
+                        <Modal {... modalProps}/>,
                         modalDomElement
                     )
         }
-        <SetAdminRoleForm sendMessageToNewAdmin={sendMessageToNewAdmin} adminNameField={adminNameField} setAdminNameField={setAdminNameField} modalProps={modalProps}/>
+        <SetAdminRoleForm {...adminPageProps}/>
         <Footer/>
     </div>
     )

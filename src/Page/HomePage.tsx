@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Header } from "../Component/Layout/Header";
 import { Footer } from "../Component/Layout/Footer";
-import { User} from "../Type/UserType";
-import apiService from '../ApiCaller/ApiCaller'; 
+
 import { useDispatch, useSelector } from "react-redux";
 import { requestUserInfor } from "../sagas/actions";
 import { UserRootState, stateRedux } from "../Type/ReduxTypes";
-import { Reducer, Store } from "redux";
+import { CenteredContent } from "../Component/Content/CenterContent";
+
+import { Container, Typography, Button, Box } from '@mui/material';
 
 
 export function HomePage() {
@@ -19,17 +20,23 @@ export function HomePage() {
         dispatch(requestUserInfor())
     },[dispatch])
 
+      
+
     
 
 
     return (
         <div className="column">
             <Header/>
-                <div className="item">Username: {userReducer.user.login}</div>
-                <div className="item">Link Github: {userReducer.user.url}</div>
-               <Link to="/repo-list">
-                    <button className="item">Show your Github repository list</button>
-                </Link>    
+            <CenteredContent>
+                <Box sx={{ marginBottom: 2 }}>
+                    <div className="item">USERNAME: {userReducer.user.login}</div>
+                </Box>
+                <Box sx={{ marginBottom: 2 }}>
+                    <div className="item">LINK GITHUB: <a href={userReducer.user.url}>{userReducer.user.url}</a></div>
+                </Box>
+            </CenteredContent>
+                 
             <Footer/>
         </div>
     )

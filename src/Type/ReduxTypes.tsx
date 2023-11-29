@@ -8,5 +8,4 @@ export interface UserRootState {
 
 export interface stateRedux {
     userReducer: UserRootState
-
 }

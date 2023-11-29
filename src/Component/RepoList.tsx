@@ -1,60 +1,50 @@
 import React, { useEffect, useState } from "react";
 import apiService from '../ApiCaller/ApiCaller'; 
-import {Repo, RepoListPropsType } from "../Type/RepoListPropsType";
+import {Repo, RepoListPropsType } from "../Type/RelatedRepoType";
 import { useNavigate } from "react-router-dom";
+import { Table, TableHead, TableBody, TableRow, TableCell, Button, Box } from '@mui/material';
 
 function RepoList(props: RepoListPropsType) {
 
-    const [repos, setRepos] = useState<Repo[]>([{id:0,name:"",url:"",language:""}]);
-    const [page, setPage] = useState(0);
-    const navigate = useNavigate()
 
-    const getRepos = async () => {
 
-        apiService.getRepositoriesFromDB(page)
-            .then((response) => {setRepos(response);})
-            .catch((error)=>{console.error("Error:", error)})
+    const onViewNoteOfRepo = (repoId: number, repoName: string, event: React.MouseEvent<HTMLTableRowElement>) => {
+      props.pickNote(repoId, repoName, event);
+      props.openNoteListModal();
     }
-
-    const redirectToNoteListOfRepo = (repoId:number, event: React.MouseEvent<HTMLTableRowElement>)=>{
-        navigate("../repo/"+repoId)
-    }
-
-
-    useEffect(() => {
-        getRepos();
-    }, [props.pullStatus, page]);
 
     return (
 
-        <div>
-        <table>
-          <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Link</th>
-                <th>Language</th>
-            </tr>
-          </thead>
-          <tbody>
-            {repos.map((item) => (
-              <tr key={item.id} onClick={(event) => redirectToNoteListOfRepo(item.id, event)}>
-                <td>{item.id}</td>
-                <td>{item.name}</td>
-                <td>{item.url}</td>
-                <td>{item.language}</td>
-              </tr>
+      <Box display="flex" flexDirection="column" alignItems="center">
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell align="center">Id</TableCell>
+              <TableCell align="center">Name</TableCell>
+              <TableCell align="center">Link</TableCell>
+              <TableCell align="center">Language</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {props.data.map((item, keyId) => (
+              <TableRow key={keyId} onClick={(event) => onViewNoteOfRepo(item.id, item.name, event)}>
+                <TableCell>{item.id}</TableCell>
+                <TableCell>{item.name}</TableCell>
+                <TableCell>{item.url}</TableCell>
+                <TableCell>{item.language}</TableCell>
+              </TableRow>
             ))}
-          </tbody>
-        </table>
-        <div>
-          <button onClick={() => setPage(page - 1)} disabled={page === 0}>
-            Previous
-          </button>
-          <button onClick={() => setPage(page + 1)}>Next</button>
-        </div>
-      </div>
+          </TableBody>
+        </Table>
+      <Box mt={2}>
+        <Button onClick={() => props.pagination.setValue(props.pagination.value - 1)} disabled={props.pagination.value === 0}>
+          Previous
+        </Button>
+        <Button onClick={() => props.pagination.setValue(props.pagination.value + 1)}>
+          Next
+        </Button>
+      </Box>
+    </Box>
     )
 
 }

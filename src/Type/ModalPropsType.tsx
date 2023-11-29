@@ -1,14 +1,18 @@
-export interface ModalProps {
-    message: string;
-    setMessage: React.Dispatch<React.SetStateAction<string>>;
-    close: () => void;
+import { UseStateType } from "./UseStateType";
+
+interface BaseModalProps {
     open: () => void;
+    close: () => void;
+    isOpen: boolean;
+  }
+  
+export interface NotificationModalProps extends BaseModalProps {
+    message: UseStateType<string>;
+}
+  
+export interface NoteListModalProps extends BaseModalProps {
+    repoId: number | null;
+    repoName: string | null;
 }
 
-export interface AdminPageProps {
-    adminNameField: string;
-    setAdminNameField: React.Dispatch<React.SetStateAction<string>>,
-    modalProps: ModalProps;
-    sendMessageToNewAdmin: ()=>void;
 
-}

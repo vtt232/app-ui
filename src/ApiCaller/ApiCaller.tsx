@@ -2,8 +2,8 @@ import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import { SERVER_URL } from '../Constant/Constant';
 import Cookies from 'js-cookie';
 import { User } from '../Type/UserType';
-import { Repo } from '../Type/RepoListPropsType';
-import { Note } from '../Type/NoteListPropsType';
+import { Repo } from '../Type/RelatedRepoType';
+import { Note } from '../Type/RelatedNoteType';
 
 export class ApiService {
   private api: AxiosInstance;
