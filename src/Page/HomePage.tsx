@@ -9,6 +9,7 @@ import { UserRootState, stateRedux } from "../Type/ReduxTypes";
 import { CenteredContent } from "../Component/Content/CenterContent";
 
 import { Container, Typography, Button, Box } from '@mui/material';
+import { ModalLayout } from "../Component/Layout/Modal,Layout";
 
 
 export function HomePage() {
@@ -36,7 +37,7 @@ export function HomePage() {
                     <div className="item">LINK GITHUB: <a href={userReducer.user.url}>{userReducer.user.url}</a></div>
                 </Box>
             </CenteredContent>
-                 
+            {userReducer.user.login && <ModalLayout/>}
             <Footer/>
         </div>
     )

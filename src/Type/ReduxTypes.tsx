@@ -6,6 +6,11 @@ export interface UserRootState {
     error: string | null;
 }
 
+export interface ModalRootState {
+    message: string;
+}
+
 export interface stateRedux {
-    userReducer: UserRootState
+    userReducer: UserRootState;
+    modalReducer: ModalRootState;
 }

@@ -1,11 +1,15 @@
 import { useState } from "react";
 import apiService from '../ApiCaller/ApiCaller';
-import { AdminPageProps } from "../Type/AdminPagePropsType";
 import { Container, Typography, Button, Box, TextField } from '@mui/material';
+import { useDispatch, useSelector } from "react-redux";
+import { stateRedux } from "../Type/ReduxTypes";
+import { openModalWithNewMessage } from "../sagas/actions";
 
-export function SetAdminRoleForm (props: AdminPageProps) {
+export function SetAdminRoleForm () {
     
   const [adminName, setAdminName] = useState<string>('');
+
+  const dispatch = useDispatch()
   
   
     const handleAdminNameFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -19,21 +23,15 @@ export function SetAdminRoleForm (props: AdminPageProps) {
       apiService.setAdminRole(adminName)
         .then((resposne) => {
             if(resposne == true){
-                props.modalProps.message.setValue("SET ADMIN ROLE SUCCESSFULLY");
-                props.sendMessageToNewAdmin(adminName);
-
+              dispatch(openModalWithNewMessage("SET ADMIN ROLE SUCCESSFULLY"))
             }else{
-                props.modalProps.message.setValue("You have no permission!!!")
+              dispatch(openModalWithNewMessage("You have no permission!!!"))
             }
         })
         .catch((error)=>{
-          props.modalProps.message.setValue("You have no permission!!!")
+          dispatch(openModalWithNewMessage("You have no permission!!!"))
           console.error("Error:", error)
-        })
-
-      props.modalProps.open();
-  
-    
+        })    
       
     };
   

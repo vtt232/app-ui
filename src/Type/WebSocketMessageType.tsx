@@ -1,5 +1,5 @@
 export interface WebSocketMessageType {
-    EventType: string;
+    serverEvent: string;
     receiver: string;
 
 }

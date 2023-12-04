@@ -9,6 +9,7 @@ import { Container, Typography, Button, Box } from '@mui/material';
 import NoteListModal from "../Component/Modal/NoteListModal";
 import { Repo, RepoListPropsType } from "../Type/RelatedRepoType";
 import { NoteListModalProps } from "../Type/ModalPropsType";
+import { ModalLayout } from "../Component/Layout/Modal,Layout";
 
 export function RepoListPage() {
 
@@ -101,6 +102,7 @@ export function RepoListPage() {
                     <RepoList {... repoListProps}/>
                 </Box>
             </CenteredContent>
+            <ModalLayout/>
             <Footer/>
         </div>
         

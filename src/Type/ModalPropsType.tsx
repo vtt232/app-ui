@@ -7,7 +7,7 @@ interface BaseModalProps {
   }
   
 export interface NotificationModalProps extends BaseModalProps {
-    message: UseStateType<string>;
+    message: string;
 }
   
 export interface NoteListModalProps extends BaseModalProps {

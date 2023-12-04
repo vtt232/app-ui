@@ -9,7 +9,7 @@ function Modal(props: NotificationModalProps) {
       <DialogContent>
         <Box display="flex" flexDirection="column" alignItems="center">
           <Typography variant="body1" gutterBottom>
-            {message.value || ''}
+            {message || ''}
           </Typography>
           <Button onClick={close} variant="contained" color="primary">
             Close
