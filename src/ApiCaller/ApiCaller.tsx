@@ -126,7 +126,7 @@ export class ApiService {
   async logout(): Promise<void>{
     try {
       const logoutAPI = axios.create({
-        baseURL: 'http://localhost/',
+        baseURL: 'http://localhost:8080/',
         withCredentials: true,
         headers: {
             "Content-Type": "application/json",
