@@ -8,6 +8,7 @@ export interface UserRootState {
 
 export interface ModalRootState {
     message: string;
+    openStatus: boolean;
 }
 
 export interface stateRedux {

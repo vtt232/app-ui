@@ -1,3 +1,4 @@
+import { Dispatch } from "redux";
 import { UseStateType } from "./UseStateType";
 
 interface BaseModalProps {

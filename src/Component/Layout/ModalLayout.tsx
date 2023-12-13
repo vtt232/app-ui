@@ -10,24 +10,23 @@ import { WebSocketMessageType } from "../../Type/WebSocketMessageType";
 import { createPortal } from "react-dom";
 import Modal from "../Modal/Modal";
 import { NotificationModalProps } from "../../Type/ModalPropsType";
-import { openModalWithNewMessage } from "../../sagas/actions";
+import { setNewMessage, closeModal, openModal } from "../../sagas/actions";
 
 export function ModalLayout () {
     //MODAL
 
     const modalDomElement = document.getElementById("portal-root");
 
-    const [stateModal, setStateModal] = useState<boolean>(false);
-
     const modalReducer = useSelector((state: stateRedux) =>state.modalReducer)
 
     const dispatch = useDispatch()
+    const openModalFunc = () => {dispatch(openModal())}
+    const closeModalFunc = () => {dispatch(closeModal())}
+    
 
 
-    const openModal = () => setStateModal(true);
-    const closeModal = () => setStateModal(false);
 
-    const modalProps: NotificationModalProps ={message: modalReducer.message, open: openModal, close: closeModal, isOpen: stateModal}
+    const modalProps: NotificationModalProps ={message: modalReducer.message, open: openModalFunc, close: closeModalFunc, isOpen: modalReducer.openStatus}
 
     
 
@@ -69,10 +68,10 @@ export function ModalLayout () {
             const messageData: WebSocketMessageType = JSON.parse(payload.body);
             
             if (messageData.receiver === user.login && messageData.serverEvent === "EVENT_SET_ADMIN") {
-                dispatch(openModalWithNewMessage("Will be logout in 5 seconds"))
-                openModal()
-                const delayInMilliseconds = 1000 * 5;
+                dispatch(setNewMessage("Will be logout in 5 seconds"));
+                dispatch(openModal());
 
+                const delayInMilliseconds = 1000 * 5;
                 setTimeout(logoutAndRedirect, delayInMilliseconds);
             } 
         }
@@ -89,7 +88,7 @@ export function ModalLayout () {
     },[])
 
     return (<div>
-        {stateModal && modalDomElement &&
+        {modalReducer.openStatus && modalDomElement &&
                     createPortal(
                         <Modal {... modalProps}/>,
                         modalDomElement

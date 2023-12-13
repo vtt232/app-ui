@@ -3,7 +3,7 @@ import apiService from '../ApiCaller/ApiCaller';
 import { Container, Typography, Button, Box, TextField } from '@mui/material';
 import { useDispatch, useSelector } from "react-redux";
 import { stateRedux } from "../Type/ReduxTypes";
-import { openModalWithNewMessage } from "../sagas/actions";
+import { setNewMessage, openModal } from "../sagas/actions";
 
 export function SetAdminRoleForm () {
     
@@ -23,13 +23,16 @@ export function SetAdminRoleForm () {
       apiService.setAdminRole(adminName)
         .then((resposne) => {
             if(resposne == true){
-              dispatch(openModalWithNewMessage("SET ADMIN ROLE SUCCESSFULLY"))
+              dispatch(setNewMessage("SET ADMIN ROLE SUCCESSFULLY"))
+              dispatch(openModal())
             }else{
-              dispatch(openModalWithNewMessage("You have no permission!!!"))
+              dispatch(setNewMessage("You have no permission!!!"))
+              dispatch(openModal())
             }
         })
         .catch((error)=>{
-          dispatch(openModalWithNewMessage("You have no permission!!!"))
+          dispatch(setNewMessage("You have no permission!!!"))
+          dispatch(openModal())
           console.error("Error:", error)
         })    
       

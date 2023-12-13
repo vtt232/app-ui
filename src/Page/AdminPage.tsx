@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {stateRedux } from "../Type/ReduxTypes";
 import { WebSocketMessageType } from "../Type/WebSocketMessageType";
 import { AdminPageProps } from "../Type/AdminPagePropsType";
-import { ModalLayout } from "../Component/Layout/Modal,Layout";
+import { ModalLayout } from "../Component/Layout/ModalLayout";
 
 
 export function AdminPage (){

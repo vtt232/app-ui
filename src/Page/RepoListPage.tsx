@@ -9,7 +9,7 @@ import { Container, Typography, Button, Box } from '@mui/material';
 import NoteListModal from "../Component/Modal/NoteListModal";
 import { Repo, RepoListPropsType } from "../Type/RelatedRepoType";
 import { NoteListModalProps } from "../Type/ModalPropsType";
-import { ModalLayout } from "../Component/Layout/Modal,Layout";
+import { ModalLayout } from "../Component/Layout/ModalLayout";
 
 export function RepoListPage() {
 

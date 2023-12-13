@@ -9,7 +9,7 @@ import { UserRootState, stateRedux } from "../Type/ReduxTypes";
 import { CenteredContent } from "../Component/Content/CenterContent";
 
 import { Container, Typography, Button, Box } from '@mui/material';
-import { ModalLayout } from "../Component/Layout/Modal,Layout";
+import { ModalLayout } from "../Component/Layout/ModalLayout";
 
 
 export function HomePage() {
