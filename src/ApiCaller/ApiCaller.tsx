@@ -4,6 +4,7 @@ import Cookies from 'js-cookie';
 import { User } from '../Type/UserType';
 import { Repo } from '../Type/RelatedRepoType';
 import { Note } from '../Type/RelatedNoteType';
+import { SystemInfor } from "../Type/SystemInforType";
 
 export class ApiService {
   private api: AxiosInstance;
@@ -138,6 +139,17 @@ export class ApiService {
       throw error;
     }
   }
+
+  async getSystemInfor(): Promise<SystemInfor>{
+    try {
+        const response: AxiosResponse = await this.api.get("/jwt/admin/system-infor");
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+  }
+
+
 }
 
 export default new ApiService();

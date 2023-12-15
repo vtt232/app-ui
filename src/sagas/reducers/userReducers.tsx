@@ -3,7 +3,7 @@ import {requestUserInfor, requestUserInforSuccess, requestUserInforFailed} from 
 import { UserRootState } from "../../Type/ReduxTypes"
 
 const initialState: UserRootState = {
-    user: {login: "", url: ""},
+    user: {login: "", url: "", role: ""},
     loading: false,
     error: null
 }

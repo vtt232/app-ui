@@ -16,6 +16,7 @@ import {stateRedux } from "../Type/ReduxTypes";
 import { WebSocketMessageType } from "../Type/WebSocketMessageType";
 import { AdminPageProps } from "../Type/AdminPagePropsType";
 import { ModalLayout } from "../Component/Layout/ModalLayout";
+import { AdminLayout } from "../Component/Layout/AdminLayout";
 
 
 export function AdminPage (){
@@ -25,6 +26,7 @@ export function AdminPage (){
     <div>
         <Header/>
         <ModalLayout/>
+        <AdminLayout/>
         <SetAdminRoleForm/>
         <Footer/>
     </div>
